@@ -1,34 +1,67 @@
 <?php
-/* What's the Problem? 
-    - PHP logic + HTML in one file
-    - Works, but not scalable
-    - Repetition will become a problem
+declare(strict_types=1);
 
-    How can we refactor this code so it’s easier to maintain?
+/*
+    Lab Two – Make It Maintainable (Refactored)
+
+    One thing I learned from this lab is that moving repeated HTML patterns into
+    small functions makes future updates faster and reduces mistakes in my course project.
 */
 
-$items = ["Home", "About", "Contact"];
+// --------------------
+// "Config" / Data
+// --------------------
+$pageTitle = "My PHP Page";
+$year = (int)date("Y");
 
+$navItems = [
+    "Home" => "#home",
+    "About" => "#about",
+    "Contact" => "#contact",
+];
+
+// --------------------
+// Helpers (behavior)
+// --------------------
+function e(string $value): string
+{
+    return htmlspecialchars($value, ENT_QUOTES, "UTF-8");
+}
+
+function renderNav(array $items): string
+{
+    $html = "<ul>\n";
+    foreach ($items as $label => $href) {
+        $html .= "    <li><a href=\"" . e((string)$href) . "\">" . e((string)$label) . "</a></li>\n";
+    }
+    $html .= "</ul>\n";
+    return $html;
+}
+
+function renderFooter(int $year): string
+{
+    return "<footer>\n    <p>&copy; " . $year . "</p>\n</footer>\n";
+}
+
+// --------------------
+// Page output (structure)
+// --------------------
 ?>
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>My PHP Page</title>
+    <meta charset="UTF-8">
+    <title><?= e($pageTitle) ?></title>
 </head>
 <body>
 
 <h1>Welcome</h1>
 
-<ul>
-<?php foreach ($items as $item): ?>
-    <li><?= $item ?></li>
-<?php endforeach; ?>
-</ul>
+<nav>
+    <?= renderNav($navItems) ?>
+</nav>
 
-<footer>
-    <p>&copy; 2026</p>
-</footer>
+<?= renderFooter($year) ?>
 
 </body>
 </html>
