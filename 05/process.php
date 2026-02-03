@@ -89,11 +89,6 @@ if (!empty($errors)) {
 INSERT THE ORDER USING A PREPARED STATEMENT
 */
 
-//set up the query used named placeholders
-
-//prepare the query 
-
-//execute the query, matching the placeholder with the data entered by user
 ?>
 
 <!--Confirmation Message -->
